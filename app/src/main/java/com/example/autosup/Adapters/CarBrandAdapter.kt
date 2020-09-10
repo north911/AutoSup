@@ -1,6 +1,5 @@
 package com.example.autosup.Adapters
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,10 +44,11 @@ class CarBrandAdapter(
             }
         }
 
-        fun loadImage(url: String, imageView: ImageView) {
+        private fun loadImage(url: String, imageView: ImageView) {
             Glide.with(imageView)  //2
                 .load("https://autosup.by/$url") //3
-                .centerCrop() //4
+                .centerCrop()
+                .override(100,100)
                 .into(imageView)
         }
     }

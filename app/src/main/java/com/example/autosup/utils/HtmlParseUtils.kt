@@ -14,7 +14,7 @@ private fun convertToDoc(str: String?): Document? {
 
 fun getElements(body: String?): Elements? {
     val document = convertToDoc(body) ?: convertToDoc("")
-    return document?.getElementById("cars")?.select("a")
+    return document?.getElementById("cars")?.getElementsByAttribute("src")
 }
 
 fun convertHtmlElementsToArray(elements: Elements?): ArrayList<CarBrand> {
@@ -23,8 +23,8 @@ fun convertHtmlElementsToArray(elements: Elements?): ArrayList<CarBrand> {
         for (element in it) {
             cars.add(
                 CarBrand(
-                    element.attr("href").substringAfterLast("/"),
-                    element.getElementsByAttribute("src").attr("src")
+                    element.attr("src").substringAfterLast("/").substringBefore("."),
+                    element.attr("src")
                 )
             )
         }

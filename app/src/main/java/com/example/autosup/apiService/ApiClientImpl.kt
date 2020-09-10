@@ -13,8 +13,8 @@ class ApiClientImpl : ApiClient {
 
      override suspend fun getAutosupMainHtmlPageAsString(): Deferred<Response<String>> {
         val retrofit: Retrofit = initializeMainAutosupPage()
-        val loginService = retrofit.create(HtmlPageService::class.java)
-        return loginService.getAutosupMainPage()
+        val htmlPageService = retrofit.create(HtmlPageService::class.java)
+        return htmlPageService.getAutosupMainPage()
     }
 
     private fun initializeMainAutosupPage(): Retrofit {
