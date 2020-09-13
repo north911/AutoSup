@@ -11,10 +11,16 @@ class ApiClientImpl : ApiClient {
 
     private val AUTOSUP_BASE_URL = "https://autosup.by/"
 
-     override suspend fun getAutosupMainHtmlPageAsString(): Deferred<Response<String>> {
+     override suspend fun getAutosupMainHtmlPage(): Deferred<Response<String>> {
         val retrofit: Retrofit = initializeMainAutosupPage()
         val htmlPageService = retrofit.create(HtmlPageService::class.java)
         return htmlPageService.getAutosupMainPage()
+    }
+
+    override suspend fun getCarBrandHtmlPage(url: String): Deferred<Response<String>> {
+        val retrofit: Retrofit = initializeMainAutosupPage()
+        val htmlPageService = retrofit.create(HtmlPageService::class.java)
+        return htmlPageService.getAutosupCarPage(url)
     }
 
     private fun initializeMainAutosupPage(): Retrofit {

@@ -1,28 +1,28 @@
 package com.example.autosup.ui.main
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.autosup.Adapters.CarBrandAdapter
-import com.example.autosup.Adapters.OnItemClickListener
+import com.example.autosup.Adapters.OnCarItemClickListener
 import com.example.autosup.Model.CarBrand
 import com.example.autosup.R
 import com.example.autosup.databinding.MainFragmentBinding
-import com.example.autosup.utils.convertHtmlElementsToArray
-import com.example.autosup.utils.getElements
+import com.example.autosup.utils.convertHtmlElementsToArrayCars
+import com.example.autosup.utils.getCarsElements
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainFragment : Fragment(), OnItemClickListener {
+class MainFragment : Fragment(), OnCarItemClickListener {
 
     private val viewModelScope = CoroutineScope(Dispatchers.Main)
 
@@ -44,22 +44,22 @@ class MainFragment : Fragment(), OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        group_recycler_view.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        car_recycler_view.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         viewModelScope.launch {
             val response = viewModel.getAllCarBrands()
-            val brands = convertHtmlElementsToArray(getElements(response.await().body()))
-            group_recycler_view.adapter =
+            val brands = convertHtmlElementsToArrayCars(getCarsElements(response.await().body()))
+            car_recycler_view.adapter =
                 CarBrandAdapter(brands, this@MainFragment)
         }
     }
 
     override fun onItemClicked(car: CarBrand) {
-        goToNextFragment(car.name)
+        goToNextFragment(car.url)
     }
 
-    private fun goToNextFragment(carName: String) {
+    private fun goToNextFragment(carUrl: String) {
         val bundle = Bundle()
-        bundle.putString("car", carName)
+        bundle.putString("carUrl", carUrl)
         val fragment: Fragment = SubBrandFragment()
         val fragmentManager: FragmentManager = activity!!.supportFragmentManager
         fragment.arguments = bundle

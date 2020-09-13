@@ -12,14 +12,8 @@ import kotlinx.android.synthetic.main.item_car_logo.view.*
 
 class CarBrandAdapter(
     var cars: ArrayList<CarBrand>,
-    private val itemClickListener: OnItemClickListener
+    private val itemClickListener: OnCarItemClickListener
 ) : RecyclerView.Adapter<CarBrandAdapter.CarViewHolder>() {
-
-    fun updateUsers(newUsers: List<CarBrand>) {
-        cars.clear()
-        cars.addAll(newUsers)
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = CarViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_car_logo, parent, false)
@@ -36,9 +30,9 @@ class CarBrandAdapter(
     class CarViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val imageView = view.carLogoView
         private val textView = view.brand_textview
-        fun bind(car: CarBrand, clickListener: OnItemClickListener) {
+        fun bind(car: CarBrand, clickListener: OnCarItemClickListener) {
             textView.text = car.name
-            loadImage(car.url, imageView)
+            loadImage(car.imageUrl, imageView)
             itemView.setOnClickListener {
                 clickListener.onItemClicked(car)
             }
@@ -48,12 +42,12 @@ class CarBrandAdapter(
             Glide.with(imageView)  //2
                 .load("https://autosup.by/$url") //3
                 .centerCrop()
-                .override(100,100)
+                .override(100, 100)
                 .into(imageView)
         }
     }
 }
 
-interface OnItemClickListener {
+interface OnCarItemClickListener {
     fun onItemClicked(car: CarBrand)
 }
