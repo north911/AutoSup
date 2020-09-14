@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.autosup.Adapters.OnSubBrandItemClickListener
 import com.example.autosup.Adapters.SubBrandAdapter
 import com.example.autosup.Model.SubBrand
@@ -42,6 +44,7 @@ class SubBrandFragment : Fragment(), OnSubBrandItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SubBrandViewModel::class.java)
+        subBrand_recycler_view.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         viewModelScope.launch {
             val response = viewModel.getAllCarSubBrands(getCarBrandFromPreviousPage())
             val brands = convertHtmlElementsToArraySubCars(getSubCarsElements(response.await().body()))

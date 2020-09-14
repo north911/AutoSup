@@ -6,8 +6,9 @@ import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import javax.inject.Inject
 
-class ApiClientImpl : ApiClient {
+class ApiClientImpl @Inject constructor() : ApiClient  {
 
     private val AUTOSUP_BASE_URL = "https://autosup.by/"
 

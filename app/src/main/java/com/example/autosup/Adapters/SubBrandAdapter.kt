@@ -27,12 +27,11 @@ class SubBrandAdapter (
     class SubBrandViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val textView = view.subBrand_text
         fun bind(car: SubBrand, clickListener: OnSubBrandItemClickListener) {
-            textView.text = "asdasdasd"
+            textView.text = car.name
             itemView.setOnClickListener {
                 clickListener.onItemClicked(car)
             }
         }
-
     }
 }
 
