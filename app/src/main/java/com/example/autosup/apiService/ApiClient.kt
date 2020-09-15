@@ -6,4 +6,5 @@ import retrofit2.Response
 interface ApiClient {
     suspend fun getAutosupMainHtmlPage(): Deferred<Response<String>>
     suspend fun getCarBrandHtmlPage(url: String): Deferred<Response<String>>
+    suspend fun getEnginesHtmlPage(url: String): Deferred<Response<String>>
 }

@@ -1,10 +1,10 @@
-package com.example.autosup.Adapters
+package com.example.autosup.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.autosup.Model.SubBrand
+import com.example.autosup.model.SubBrand
 import com.example.autosup.R
 import kotlinx.android.synthetic.main.item_sub_brand.view.*
 

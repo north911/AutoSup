@@ -10,9 +10,9 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.autosup.Adapters.CarBrandAdapter
-import com.example.autosup.Adapters.OnCarItemClickListener
-import com.example.autosup.Model.CarBrand
+import com.example.autosup.adapters.CarBrandAdapter
+import com.example.autosup.adapters.OnCarItemClickListener
+import com.example.autosup.model.CarBrand
 import com.example.autosup.R
 import com.example.autosup.databinding.MainFragmentBinding
 import com.example.autosup.utils.convertHtmlElementsToArrayCars

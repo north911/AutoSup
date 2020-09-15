@@ -11,4 +11,7 @@ interface HtmlPageService {
 
     @GET
     fun getAutosupCarPage(@Url url: String): Deferred<Response<String>>
+
+    @GET
+    fun getAutosupEnginePage(@Url url: String): Deferred<Response<String>>
 }

@@ -5,17 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.autosup.Adapters.OnSubBrandItemClickListener
-import com.example.autosup.Adapters.SubBrandAdapter
-import com.example.autosup.Model.SubBrand
+import com.example.autosup.adapters.OnSubBrandItemClickListener
+import com.example.autosup.adapters.SubBrandAdapter
+import com.example.autosup.model.SubBrand
 import com.example.autosup.R
 import com.example.autosup.databinding.SubBrandFragmentBinding
 import com.example.autosup.utils.convertHtmlElementsToArraySubCars
 import com.example.autosup.utils.getSubCarsElements
-import kotlinx.android.synthetic.main.main_fragment.*
+import com.example.autosup.utils.getValueFromPreviousFragment
 import kotlinx.android.synthetic.main.sub_brand_fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +33,6 @@ class SubBrandFragment : Fragment(), OnSubBrandItemClickListener {
 
     private lateinit var viewModel: SubBrandViewModel
     private lateinit var binding: SubBrandFragmentBinding
-    private var carBrand: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,22 +47,27 @@ class SubBrandFragment : Fragment(), OnSubBrandItemClickListener {
         viewModel = ViewModelProviders.of(this).get(SubBrandViewModel::class.java)
         subBrand_recycler_view.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         viewModelScope.launch {
-            val response = viewModel.getAllCarSubBrands(getCarBrandFromPreviousPage())
+            val response = viewModel.getAllCarSubBrands(getValueFromPreviousFragment(this@SubBrandFragment,"carUrl"))
             val brands = convertHtmlElementsToArraySubCars(getSubCarsElements(response.await().body()))
             subBrand_recycler_view.adapter =
                 SubBrandAdapter(brands, this@SubBrandFragment)
         }
     }
 
-    private fun getCarBrandFromPreviousPage(): String? {
-        val bundle = this.arguments
-        if (bundle != null) {
-            carBrand = bundle.getString("carUrl")
-        }
-        return carBrand
-    }
 
     override fun onItemClicked(car: SubBrand) {
-        TODO("Not yet implemented")
+        goToNextFragment(car.url)
+    }
+
+    private fun goToNextFragment(subUrl: String) {
+        val bundle = Bundle()
+        bundle.putString("subUrl", subUrl)
+        val fragment: Fragment = EngineFragment()
+        val fragmentManager: FragmentManager = activity!!.supportFragmentManager
+        fragment.arguments = bundle
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(this.id, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
 }

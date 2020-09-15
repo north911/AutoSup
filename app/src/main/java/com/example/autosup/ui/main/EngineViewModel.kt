@@ -6,12 +6,13 @@ import com.example.autosup.Dagger.DaggerApplicationGraph
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
 
-class MainViewModel : ViewModel() {
+class EngineViewModel : ViewModel() {
 
     private val applicationGraph: ApplicationGraph = DaggerApplicationGraph.create()
     private var apiClient = applicationGraph.getApiClient()
 
-    suspend fun getAllCarBrands(): Deferred<Response<String>> {
-        return apiClient.getAutosupMainHtmlPage()
+    suspend fun getAllEngines(url :String?): Deferred<Response<String>> {
+        url?.let { return apiClient.getEnginesHtmlPage(url) }
+        return apiClient.getEnginesHtmlPage("/")
     }
 }

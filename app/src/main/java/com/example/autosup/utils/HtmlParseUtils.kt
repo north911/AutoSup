@@ -1,10 +1,9 @@
 package com.example.autosup.utils
 
-import com.example.autosup.Model.CarBrand
-import com.example.autosup.Model.SubBrand
+import com.example.autosup.model.CarBrand
+import com.example.autosup.model.SubBrand
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
 
 private fun convertToDoc(str: String?): Document? {

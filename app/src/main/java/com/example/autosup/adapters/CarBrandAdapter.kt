@@ -1,4 +1,4 @@
-package com.example.autosup.Adapters
+package com.example.autosup.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.autosup.Model.CarBrand
+import com.example.autosup.model.CarBrand
 import com.example.autosup.R
 import kotlinx.android.synthetic.main.item_car_logo.view.*
 
