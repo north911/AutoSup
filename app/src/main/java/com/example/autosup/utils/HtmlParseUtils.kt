@@ -1,6 +1,8 @@
 package com.example.autosup.utils
 
 import com.example.autosup.model.CarBrand
+import com.example.autosup.model.CarPart
+import com.example.autosup.model.Engine
 import com.example.autosup.model.SubBrand
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -34,7 +36,7 @@ fun convertHtmlElementsToArrayCars(elements: Elements?): ArrayList<CarBrand> {
     return cars
 }
 
-fun getSubCarsElements(body: String?): Elements?{
+fun getSubCarsElements(body: String?): Elements? {
     val document = convertToDoc(body) ?: convertToDoc("")
     return document?.getElementsByClass("brd")
 }
@@ -53,4 +55,48 @@ fun convertHtmlElementsToArraySubCars(elements: Elements?): ArrayList<SubBrand> 
         }
     }
     return cars
+}
+
+fun getEngineElements(body: String?): Elements? {
+    val document = convertToDoc(body) ?: convertToDoc("")
+    return document?.getElementsByClass("brd")
+}
+
+fun convertHtmlElementsToArrayEngines(elements: Elements?): ArrayList<Engine> {
+    val engines = ArrayList<Engine>()
+    elements?.let {
+        for (element in it) {
+            engines.add(
+                Engine(
+                    element.child(0).child(0).text(),
+                    element.child(1).text(),
+                    element.child(0).child(0).attr("href"),
+                    element.child(2).text(),
+                    element.child(3).text(),
+                    element.child(0).child(0).attr("href")
+                )
+            )
+        }
+    }
+    return engines
+}
+
+fun getCarPartElements(body: String?): Elements? {
+    val document = convertToDoc(body) ?: convertToDoc("")
+    return document?.getElementsByClass("blacklink12")
+}
+
+fun convertHtmlElementsToArrayCarParts(elements: Elements?): ArrayList<CarPart> {
+    val carParts = ArrayList<CarPart>()
+    elements?.let {
+        for (element in it) {
+            carParts.add(
+                CarPart(
+                    element.attr("href"),
+                    element.text()
+                )
+            )
+        }
+    }
+    return carParts
 }

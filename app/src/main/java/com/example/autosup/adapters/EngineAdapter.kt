@@ -25,7 +25,7 @@ class EngineAdapter (
     }
 
     class EngineViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val textView = view.subBrand_text
+        private val textView = view.item_text
         fun bind(car: Engine, clickListener: OnEngineClickListener) {
             textView.text = car.name + car.carBack + car.fuel
             itemView.setOnClickListener {
