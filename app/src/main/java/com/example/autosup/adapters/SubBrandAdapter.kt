@@ -36,5 +36,5 @@ class SubBrandAdapter (
 }
 
 interface OnSubBrandItemClickListener {
-    fun onItemClicked(car: SubBrand)
+    fun onItemClicked(subBrand: SubBrand)
 }

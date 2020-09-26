@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -15,6 +16,7 @@ import com.example.autosup.adapters.EngineAdapter
 import com.example.autosup.adapters.OnEngineClickListener
 import com.example.autosup.databinding.SubBrandFragmentBinding
 import com.example.autosup.model.Engine
+import com.example.autosup.utils.OnBackPressed
 import com.example.autosup.utils.convertHtmlElementsToArrayEngines
 import com.example.autosup.utils.getEngineElements
 import com.example.autosup.utils.getValueFromPreviousFragment
@@ -23,7 +25,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class EngineFragment : Fragment(), OnEngineClickListener {
+class EngineFragment : Fragment(), OnEngineClickListener, OnBackPressed {
 
     private val viewModelScope = CoroutineScope(Dispatchers.Main)
 
@@ -54,13 +56,17 @@ class EngineFragment : Fragment(), OnEngineClickListener {
         }
     }
 
-    override fun onItemClicked(car: Engine) {
-        goToNextFragment(car.url)
+    override fun onItemClicked(engine: Engine) {
+        goToNextFragment(engine)
     }
 
-    private fun goToNextFragment(url: String) {
+    private fun goToNextFragment(engine: Engine) {
+        activity?.findViewById<TextView>(R.id.main_toolbar)?.apply {
+            val value = text.toString().plus("->").plus(engine.name)
+            text = value
+        }
         val bundle = Bundle()
-        bundle.putString("url", url)
+        bundle.putString("url", engine.url)
         val fragment: Fragment = CarPartFragment()
         val fragmentManager: FragmentManager = activity!!.supportFragmentManager
         fragment.arguments = bundle
@@ -68,5 +74,13 @@ class EngineFragment : Fragment(), OnEngineClickListener {
         fragmentTransaction.replace(this.id, fragment)
         fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+    }
+
+    override fun onBackPressed(): Boolean {
+        activity?.findViewById<TextView>(R.id.main_toolbar)?.apply {
+            val value = text.toString().substringBeforeLast("->")
+            text = value
+        }
+        return true
     }
 }

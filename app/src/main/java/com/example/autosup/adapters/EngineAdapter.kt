@@ -36,5 +36,5 @@ class EngineAdapter (
 }
 
 interface OnEngineClickListener {
-    fun onItemClicked(car: Engine)
+    fun onItemClicked(engine: Engine)
 }

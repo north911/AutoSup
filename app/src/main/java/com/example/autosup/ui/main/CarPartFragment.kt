@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.example.autosup.adapters.CarPartAdapter
 import com.example.autosup.adapters.OnCarPartClickListener
 import com.example.autosup.databinding.CarPartFragmentBinding
 import com.example.autosup.model.CarPart
+import com.example.autosup.utils.OnBackPressed
 import com.example.autosup.utils.convertHtmlElementsToArrayCarParts
 import com.example.autosup.utils.getCarPartElements
 import com.example.autosup.utils.getValueFromPreviousFragment
@@ -22,7 +24,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class CarPartFragment : Fragment(), OnCarPartClickListener {
+class CarPartFragment : Fragment(), OnCarPartClickListener, OnBackPressed {
 
     private val viewModelScope = CoroutineScope(Dispatchers.Main)
     private lateinit var viewModel: CarPartViewModel
@@ -65,5 +67,13 @@ class CarPartFragment : Fragment(), OnCarPartClickListener {
     }
 
     override fun onItemClicked(car: CarPart) {
+    }
+
+    override fun onBackPressed(): Boolean {
+        activity?.findViewById<TextView>(R.id.main_toolbar)?.apply {
+            val value = text.toString().substringBeforeLast("->")
+            text = value
+        }
+        return true
     }
 }
