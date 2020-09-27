@@ -6,15 +6,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.autosup.model.Engine
 import com.example.autosup.R
+import com.example.autosup.utils.RecyclerUpdater
 import kotlinx.android.synthetic.main.item_sub_brand.view.*
 
 class EngineAdapter (
     var engines: ArrayList<Engine>,
     private val itemClickListener: OnEngineClickListener
-) : RecyclerView.Adapter<EngineAdapter.EngineViewHolder>() {
+) : RecyclerView.Adapter<EngineAdapter.EngineViewHolder>(), RecyclerUpdater {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = EngineViewHolder (
         LayoutInflater.from(parent.context).inflate(R.layout.item_sub_brand, parent, false))
+
+    override fun updateRecycler(string: String) {
+        val updatedCars = engines.filter { brand -> brand.name.startsWith(string, true) }
+        engines.clear()
+        engines.addAll(updatedCars)
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount() = engines.size
 

@@ -8,16 +8,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.autosup.model.CarBrand
 import com.example.autosup.R
+import com.example.autosup.utils.RecyclerUpdater
 import kotlinx.android.synthetic.main.item_car_logo.view.*
 
 class CarBrandAdapter(
     var cars: ArrayList<CarBrand>,
     private val itemClickListener: OnCarItemClickListener
-) : RecyclerView.Adapter<CarBrandAdapter.CarViewHolder>() {
+) : RecyclerView.Adapter<CarBrandAdapter.CarViewHolder>(), RecyclerUpdater {
 
-    override fun onCreateViewHolder(parent: ViewGroup, p1: Int) = CarViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_car_logo, parent, false)
-    )
+    private val allCars = ArrayList(cars)
+
+    override fun onCreateViewHolder(parent: ViewGroup, p1: Int): CarViewHolder {
+        return CarViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_car_logo, parent, false)
+        )
+    }
+
+    override fun updateRecycler(string: String) {
+        val updatedCars = allCars.filter { brand -> brand.name.startsWith(string, true) }
+        cars.clear()
+        cars.addAll(updatedCars)
+        notifyDataSetChanged()
+    }
 
     override fun getItemCount() = cars.size
 

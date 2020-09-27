@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -14,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.autosup.R
 import com.example.autosup.adapters.CarBrandAdapter
 import com.example.autosup.adapters.OnCarItemClickListener
-import com.example.autosup.databinding.MainActivityBinding
 import com.example.autosup.databinding.MainFragmentBinding
+import com.example.autosup.listeners.SearchViewListener
 import com.example.autosup.model.CarBrand
 import com.example.autosup.utils.convertHtmlElementsToArrayCars
 import com.example.autosup.utils.getCarsElements
@@ -47,11 +48,14 @@ class MainFragment : Fragment(), OnCarItemClickListener {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         car_recycler_view.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+
         viewModelScope.launch {
             val response = viewModel.getAllCarBrands()
             val brands = convertHtmlElementsToArrayCars(getCarsElements(response.await().body()))
             car_recycler_view.adapter =
-                CarBrandAdapter(brands, this@MainFragment)
+                CarBrandAdapter(brands, this@MainFragment).also {
+                    activity?.findViewById<SearchView>(R.id.searchView)?.setOnQueryTextListener(SearchViewListener(it))
+                }
         }
     }
 

@@ -6,17 +6,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.autosup.model.SubBrand
 import com.example.autosup.R
+import com.example.autosup.utils.RecyclerUpdater
 import kotlinx.android.synthetic.main.item_sub_brand.view.*
 
 class SubBrandAdapter (
     var cars: ArrayList<SubBrand>,
     private val itemClickListener: OnSubBrandItemClickListener
-) : RecyclerView.Adapter<SubBrandAdapter.SubBrandViewHolder>() {
+) : RecyclerView.Adapter<SubBrandAdapter.SubBrandViewHolder>(), RecyclerUpdater {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = SubBrandViewHolder (
         LayoutInflater.from(parent.context).inflate(R.layout.item_sub_brand, parent, false))
 
     override fun getItemCount() = cars.size
+
+    override fun updateRecycler(string: String) {
+        val updatedCars = cars.filter { brand -> brand.name.startsWith(string, true) }
+        cars.clear()
+        cars.addAll(updatedCars)
+        notifyDataSetChanged()
+    }
 
     override fun onBindViewHolder(holder: SubBrandViewHolder, position: Int) {
         cars.let {

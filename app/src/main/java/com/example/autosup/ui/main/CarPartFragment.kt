@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
@@ -13,6 +14,7 @@ import com.example.autosup.R
 import com.example.autosup.adapters.CarPartAdapter
 import com.example.autosup.adapters.OnCarPartClickListener
 import com.example.autosup.databinding.CarPartFragmentBinding
+import com.example.autosup.listeners.SearchViewListener
 import com.example.autosup.model.CarPart
 import com.example.autosup.utils.OnBackPressed
 import com.example.autosup.utils.convertHtmlElementsToArrayCarParts
@@ -62,7 +64,11 @@ class CarPartFragment : Fragment(), OnCarPartClickListener, OnBackPressed {
                 )
             )
             carPart_recycler_view.adapter =
-                CarPartAdapter(carParts, this@CarPartFragment)
+                CarPartAdapter(carParts, this@CarPartFragment).also {
+                    activity?.findViewById<SearchView>(R.id.searchView)?.setOnQueryTextListener(
+                        SearchViewListener(it)
+                    )
+                }
         }
     }
 

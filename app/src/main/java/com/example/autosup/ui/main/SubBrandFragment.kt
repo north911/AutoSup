@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -16,6 +17,7 @@ import com.example.autosup.adapters.SubBrandAdapter
 import com.example.autosup.model.SubBrand
 import com.example.autosup.R
 import com.example.autosup.databinding.SubBrandFragmentBinding
+import com.example.autosup.listeners.SearchViewListener
 import com.example.autosup.utils.OnBackPressed
 import com.example.autosup.utils.convertHtmlElementsToArraySubCars
 import com.example.autosup.utils.getSubCarsElements
@@ -52,7 +54,11 @@ class SubBrandFragment : Fragment(), OnSubBrandItemClickListener, OnBackPressed 
             val response = viewModel.getAllCarSubBrands(getValueFromPreviousFragment(this@SubBrandFragment,"carUrl"))
             val brands = convertHtmlElementsToArraySubCars(getSubCarsElements(response.await().body()))
             subBrand_recycler_view.adapter =
-                SubBrandAdapter(brands, this@SubBrandFragment)
+                SubBrandAdapter(brands, this@SubBrandFragment).also {
+                    activity?.findViewById<SearchView>(R.id.searchView)?.setOnQueryTextListener(
+                        SearchViewListener(it)
+                    )
+                }
         }
     }
 
