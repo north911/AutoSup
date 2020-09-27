@@ -14,11 +14,13 @@ class CarPartAdapter (
     private val itemClickListener: OnCarPartClickListener
 ) : RecyclerView.Adapter<CarPartAdapter.CarPartViewHolder>(), RecyclerUpdater {
 
+    private val allCarParts = ArrayList(carParts)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = CarPartViewHolder (
         LayoutInflater.from(parent.context).inflate(R.layout.item_sub_brand, parent, false))
 
     override fun updateRecycler(string: String) {
-        val updatedCars = carParts.filter { brand -> brand.name.startsWith(string, true) }
+        val updatedCars = allCarParts.filter { brand -> brand.name.startsWith(string, true) }
         carParts.clear()
         carParts.addAll(updatedCars)
         notifyDataSetChanged()

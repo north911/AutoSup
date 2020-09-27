@@ -14,11 +14,13 @@ class EngineAdapter (
     private val itemClickListener: OnEngineClickListener
 ) : RecyclerView.Adapter<EngineAdapter.EngineViewHolder>(), RecyclerUpdater {
 
+    private val allEngines = ArrayList(engines)
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = EngineViewHolder (
         LayoutInflater.from(parent.context).inflate(R.layout.item_sub_brand, parent, false))
 
     override fun updateRecycler(string: String) {
-        val updatedCars = engines.filter { brand -> brand.name.startsWith(string, true) }
+        val updatedCars = allEngines.filter { brand -> brand.name.startsWith(string, true) }
         engines.clear()
         engines.addAll(updatedCars)
         notifyDataSetChanged()
