@@ -14,7 +14,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
+            android:titleTextColor="#FF1744"
+            android:background="#1565C0">
 
             <TextView
                 android:id="@+id/main_toolbar"
@@ -27,6 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
+            android:paddingBottom="10dp"
             android:queryHint="Search Here" />
 
         <FrameLayout

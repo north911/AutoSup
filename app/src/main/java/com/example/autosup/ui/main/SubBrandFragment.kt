@@ -18,10 +18,7 @@ import com.example.autosup.model.SubBrand
 import com.example.autosup.R
 import com.example.autosup.databinding.SubBrandFragmentBinding
 import com.example.autosup.listeners.SearchViewListener
-import com.example.autosup.utils.OnBackPressed
-import com.example.autosup.utils.convertHtmlElementsToArraySubCars
-import com.example.autosup.utils.getSubCarsElements
-import com.example.autosup.utils.getValueFromPreviousFragment
+import com.example.autosup.utils.*
 import kotlinx.android.synthetic.main.sub_brand_fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -64,6 +61,7 @@ class SubBrandFragment : Fragment(), OnSubBrandItemClickListener, OnBackPressed 
 
 
     override fun onItemClicked(subBrand: SubBrand) {
+        hideKeyboard()
         goToNextFragment(subBrand)
     }
 

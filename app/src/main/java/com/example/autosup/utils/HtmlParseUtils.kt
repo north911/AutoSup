@@ -1,9 +1,6 @@
 package com.example.autosup.utils
 
-import com.example.autosup.model.CarBrand
-import com.example.autosup.model.CarPart
-import com.example.autosup.model.Engine
-import com.example.autosup.model.SubBrand
+import com.example.autosup.model.*
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.select.Elements
@@ -100,3 +97,28 @@ fun convertHtmlElementsToArrayCarParts(elements: Elements?): ArrayList<CarPart> 
     }
     return carParts
 }
+
+fun getPartElements(body: String?): Elements? {
+    val document = convertToDoc(body) ?: convertToDoc("")
+    val allPartElements = document?.getElementsByClass("mt4 bgf3")
+    document?.getElementsByClass("mt4 bgf2")?.let { allPartElements?.addAll(it) }
+    return allPartElements
+}
+
+fun convertHtmlElementsToArrayParts(elements: Elements?): ArrayList<Part> {
+    val parts = ArrayList<Part>()
+    elements?.let {
+        for (element in it) {
+            parts.add(
+                Part(
+                    element.text().substringAfterLast("-"),
+                    "",
+                    ""
+                )
+            )
+        }
+    }
+    return parts
+}
+
+

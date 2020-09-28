@@ -1,9 +1,12 @@
 package com.example.autosup.ui.main
 
+import android.app.Activity
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -20,6 +23,7 @@ import com.example.autosup.listeners.SearchViewListener
 import com.example.autosup.model.CarBrand
 import com.example.autosup.utils.convertHtmlElementsToArrayCars
 import com.example.autosup.utils.getCarsElements
+import com.example.autosup.utils.hideKeyboard
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,6 +64,7 @@ class MainFragment : Fragment(), OnCarItemClickListener {
     }
 
     override fun onItemClicked(car: CarBrand) {
+        hideKeyboard()
         goToNextFragment(car)
     }
 

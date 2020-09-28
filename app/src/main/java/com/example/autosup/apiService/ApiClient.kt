@@ -8,4 +8,5 @@ interface ApiClient {
     suspend fun getCarBrandHtmlPage(url: String): Deferred<Response<String>>
     suspend fun getEnginesHtmlPage(url: String): Deferred<Response<String>>
     suspend fun getAllCarBrands(url: String): Deferred<Response<String>>
+    suspend fun getPartsPage(url: String): Deferred<Response<String>>
 }

@@ -22,6 +22,11 @@ class ApiClientImpl @Inject constructor() : ApiClient  {
         return htmlPageService.getAutosupCarPage(url)
     }
 
+    override suspend fun getPartsPage(url: String): Deferred<Response<String>> {
+        val htmlPageService = initializeRetrofit()
+        return htmlPageService.getAllParts(url)
+    }
+
     override suspend fun getAllCarBrands(url: String): Deferred<Response<String>> {
         val htmlPageService = initializeRetrofit()
         return htmlPageService.getAllCarParts(url)

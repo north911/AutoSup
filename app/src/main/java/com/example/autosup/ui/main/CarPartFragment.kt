@@ -7,19 +7,18 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.autosup.R
 import com.example.autosup.adapters.CarPartAdapter
 import com.example.autosup.adapters.OnCarPartClickListener
-import com.example.autosup.databinding.CarPartFragmentBinding
 import com.example.autosup.listeners.SearchViewListener
 import com.example.autosup.model.CarPart
-import com.example.autosup.utils.OnBackPressed
-import com.example.autosup.utils.convertHtmlElementsToArrayCarParts
-import com.example.autosup.utils.getCarPartElements
-import com.example.autosup.utils.getValueFromPreviousFragment
+import com.example.autosup.model.PartFragment
+import com.example.autosup.utils.*
 import kotlinx.android.synthetic.main.car_part_fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +29,6 @@ class CarPartFragment : Fragment(), OnCarPartClickListener, OnBackPressed {
 
     private val viewModelScope = CoroutineScope(Dispatchers.Main)
     private lateinit var viewModel: CarPartViewModel
-    private lateinit var binding: CarPartFragmentBinding
 
     companion object {
         fun newInstance() = CarPartFragment()
@@ -53,16 +51,9 @@ class CarPartFragment : Fragment(), OnCarPartClickListener, OnBackPressed {
         )
         viewModelScope.launch {
             val response = viewModel.getAllCarParts(
-                getValueFromPreviousFragment(
-                    this@CarPartFragment,
-                    "url"
-                )
-            )
+                getValueFromPreviousFragment(this@CarPartFragment, "url"))
             val carParts = convertHtmlElementsToArrayCarParts(
-                getCarPartElements(
-                    response.await().body()
-                )
-            )
+                getCarPartElements(response.await().body()))
             carPart_recycler_view.adapter =
                 CarPartAdapter(carParts, this@CarPartFragment).also {
                     activity?.findViewById<SearchView>(R.id.searchView)?.setOnQueryTextListener(
@@ -73,6 +64,8 @@ class CarPartFragment : Fragment(), OnCarPartClickListener, OnBackPressed {
     }
 
     override fun onItemClicked(car: CarPart) {
+        hideKeyboard()
+        goToNextFragment(car)
     }
 
     override fun onBackPressed(): Boolean {
@@ -82,4 +75,21 @@ class CarPartFragment : Fragment(), OnCarPartClickListener, OnBackPressed {
         }
         return true
     }
+
+    private fun goToNextFragment(carPart: CarPart) {
+        activity?.findViewById<TextView>(R.id.main_toolbar)?.apply {
+            val value = text.toString().plus("->").plus(carPart.name)
+            text = value
+        }
+        val bundle = Bundle()
+        bundle.putString("url", carPart.url)
+        val fragment: Fragment = PartFragment()
+        val fragmentManager: FragmentManager = activity!!.supportFragmentManager
+        fragment.arguments = bundle
+        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(this.id, fragment)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
+    }
+
 }

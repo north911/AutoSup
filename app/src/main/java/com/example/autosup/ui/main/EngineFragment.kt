@@ -18,10 +18,7 @@ import com.example.autosup.adapters.OnEngineClickListener
 import com.example.autosup.databinding.SubBrandFragmentBinding
 import com.example.autosup.listeners.SearchViewListener
 import com.example.autosup.model.Engine
-import com.example.autosup.utils.OnBackPressed
-import com.example.autosup.utils.convertHtmlElementsToArrayEngines
-import com.example.autosup.utils.getEngineElements
-import com.example.autosup.utils.getValueFromPreviousFragment
+import com.example.autosup.utils.*
 import kotlinx.android.synthetic.main.engine_fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -63,6 +60,7 @@ class EngineFragment : Fragment(), OnEngineClickListener, OnBackPressed {
     }
 
     override fun onItemClicked(engine: Engine) {
+        hideKeyboard()
         goToNextFragment(engine)
     }
 
